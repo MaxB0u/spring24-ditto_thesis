@@ -21,21 +21,21 @@ pub const OBF_ETHERTYPE: pnet::packet::ethernet::EtherType = pnet::packet::ether
 // Usually this would be done with routing tables, but since I needed to send the packet back to its source for my test I hardcoded the wireguard address of Zurich
 pub const IP_NEXT_HOP: [u8;4] = [10, 7, 0 , 2];
 
+/// Gets sorted indices needed to match incoming packets and the corresponding queue index to choose.
 pub fn get_sorted_indices() -> Vec<usize> {
-    /// Gets sorted indices needed to match incoming packets and the corresponding queue index to choose.
     let mut indices: Vec<usize> = (0..PATTERN.len()).collect();
     // Sort the indices based on the corresponding values in the data vector
     indices.sort_by_key(|&i| &PATTERN[i]);
     indices
 }
 
+/// Store in a vector the ranges of each state [state_start_index,next_state_start.
+/// Fancy encoding so no need to use hash maps and reduce overhead compared to accessing lists. 
+/// Since patterns are relatively small and in increasing order it should be ok.
+/// Make the vector as long as the pattern for easier processing after.
+/// e.g PATTERN=[100,200,300,300,300,500] gives [(0,1),(1,2),(2,5),(2,5),(2,5),(5,6)].
+/// First number in tuple is next queue to push to, second number is the index at which the next state starts.
 pub fn get_push_state_vector() -> Vec<(usize,usize)> {
-    /// Store in a vector the ranges of each state [state_start_index,next_state_start.
-    /// Fancy encoding so no need to use hash maps and reduce overhead compared to accessing lists. 
-    /// Since patterns are relatively small and in increasing order it should be ok.
-    /// Make the vector as long as the pattern for easier processing after.
-    /// e.g PATTERN=[100,200,300,300,300,500] gives [(0,1),(1,2),(2,5),(2,5),(2,5),(5,6)].
-    /// First number in tuple is next queue to push to, second number is the index at which the next state starts.
     let mut state = Vec::new();
     let mut count = 0;
 
@@ -54,8 +54,8 @@ pub fn get_push_state_vector() -> Vec<(usize,usize)> {
     state
 }
 
+/// Utility function to get the average length of the pattern.
 pub fn get_average_pattern_length() -> f64 {
-    /// Utility function to get the average length of the pattern.
     let mut total = 0.0;
     for p in PATTERN {
         total += p as f64;

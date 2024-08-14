@@ -1,9 +1,9 @@
 use std::fs;
 use toml::Value;
 
-fn main() {
-    /// Entry point of the program. Parses arguments and calls the main function with the configuration file.
 
+// Entry point of the program. Parses arguments and calls the main function with the configuration file.
+fn main() {
     // Get the name of the network interface from the command-line arguments
     let mut args: Vec<String> = std::env::args().collect();
 

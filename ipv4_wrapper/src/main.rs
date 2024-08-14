@@ -1,8 +1,7 @@
 use std::net;
 
+// Entry point of the program. Parses arguments and calls the main function with the desired ip address.
 fn main() {
-    /// Entry point of the program. Parses arguments and calls the main function with the desired ip address.
-
     let args: Vec<String> = std::env::args().collect();
 
     if args.len() < 2 {
@@ -19,8 +18,8 @@ fn main() {
     }
 }
 
+// Get an ip adress from a string in the format xxx.xxx.xxx.xxx and returns it as 4 bytes.
 fn parse_ip(ip_str: String) -> [u8;4] {
-    /// Get an ip adress from a string in the format xxx.xxx.xxx.xxx and returns it as 4 bytes.
     let ip_addr = match ip_str.parse::<net::Ipv4Addr>() {
         Ok(addr) => addr,
         Err(e) => {

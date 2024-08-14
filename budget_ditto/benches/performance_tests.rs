@@ -16,8 +16,8 @@ const EMPTY_PKT: [u8; MTU] = [0; MTU];
 const SRC_IP_ADDR: [u8;4] = [10, 9, 0, 2];
 const DST_IP_ADDR: [u8;4] = [10, 9, 0, 1];
 
+// Sends packets to test Ditto.
 fn send(input: &str) {
-    /// Sends packets to test Ditto.
     let mut ch_tx = match budget_ditto::get_channel(input) {
         Ok(tx) => tx,
         Err(error) => panic!("Error getting channel: {error}"),
@@ -39,8 +39,8 @@ fn send(input: &str) {
     }
 }
 
+// Receives Ditto packets in a thread.
 fn receive(output: &str) {
-    /// Receives Ditto packets in a thread.
     let mut ch_rx = match budget_ditto::get_channel(output) {
         Ok(rx) => rx,
         Err(error) => panic!("Error getting channel: {error}"),
@@ -61,8 +61,8 @@ fn receive(output: &str) {
     });
 }
 
+// Get ethernet frames used for tests.
 fn get_eth_frames() -> Vec<Vec<u8>>{
-    /// Get ethernet frames used for tests.
     let src_mac = MacAddr::new(0x05, 0x04, 0x03, 0x02, 0x01, 0x00);
     let dst_mac = MacAddr::new(0x00, 0x01, 0x02, 0x03, 0x04, 0x05);
     let mut frame_buff: Vec<Vec<u8>> = Vec::new();
@@ -79,20 +79,20 @@ fn get_eth_frames() -> Vec<Vec<u8>>{
     frame_buff
 }
 
+// Get a random length that can be used to sample from a distribution of packet lengths.
 fn get_random_pkt_len() -> i32 {
-    /// Get a random length that can be used to sample from a distribution of packet lengths.
     let mut rng = rand::thread_rng();
     rng.gen_range(MIN_ETH_LEN..=MTU as i32)
 }
 
+// Pop empty queues.
 fn rr_pop() {
-    /// Pop empty queues.
     let rrs = round_robin::RoundRobinScheduler::new(budget_ditto::pattern::PATTERN.len(), 1e6, SRC_IP_ADDR, DST_IP_ADDR);
     rrs.pop(pattern::PATTERN.len()-1); // Pop from last q (currently longest so worst case scenario. Be careful about this)
 }
 
+// Test the most efficient method to make a thread sleep.
 fn thread_timer() {
-    /// Test the most efficient method to make a thread sleep.
     let interval = Duration::from_nanos(1e3 as u64);
     let t = Instant::now();
     // Calculate time to sleep
@@ -110,43 +110,41 @@ fn thread_timer() {
 }
 
 
+// Benchmark sending packets.
 fn bench_send(c: &mut Criterion) {
-    /// Benchmark sending packets.
     let input = "eth1";
     c.bench_function("send", |b| b.iter(|| send(black_box(input))));
 }
 
+// Benchmark getting packets.
 fn bench_get_pkts(c: &mut Criterion) {
-    /// Benchmark getting packets.
     c.bench_function("get_eth_frames", |b| b.iter(|| get_eth_frames()));
 }
 
+// Benchmark getting a channel.
 fn bench_get_channel(c: &mut Criterion) {
-    /// Benchmark getting a channel.
     let input = "eth1";
     c.bench_function("get_channel", |b| b.iter(|| budget_ditto::get_channel(black_box(input))));
 }
 
+// Benchmark receiving packets.
 fn bench_receive(c: &mut Criterion) {
-    /// Benchmark receiving packets.
     let input = "eth3";
     c.bench_function("receive", |b| b.iter(|| receive(black_box(input))));
 }
 
+// Benchmark popping packets from the round robbin queue.
 fn bench_rr_pop(c: &mut Criterion) {
-    /// Benchmark popping packets from the round robbin queue.
     c.bench_function("rr_pop", |b| b.iter(|| rr_pop()));
 }
 
+// Benchmark different ways to make threads sleep.
 fn bench_thread_timer(c: &mut Criterion) {
-    /// Benchmark different ways to make threads sleep.
     c.bench_function("thread_timer", |b| b.iter(|| thread_timer()));
 }
 
 // Before running this need to setup virtual eth 1,2,3
-// And to urn ditto in another window with command
-// sudo -E cargo run eth1 eth2 eth2 eth3
-// to run it all on same device
+// And to run ditto in another terminal 
 criterion_group!(tx, bench_send);
 criterion_group!(gen, bench_get_pkts); // 8 micro sec
 criterion_group!(ch, bench_channel);

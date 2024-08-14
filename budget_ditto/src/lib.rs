@@ -20,17 +20,16 @@ use toml::Value;
 const FACTOR_MEGABITS: f64 = 1e6;
 const BITS_PER_BYTE: f64 = 8.0;
 
+/// Struct to hold the necessary channel information for the different threads.
+/// A chennel for sending, a channel for receiving, and a mac address to filter traffic.
 pub struct ChannelCustom {
-    /// Struct to hold the necessary channel information for the different threads.
-    /// A chennel for sending, a channel for receiving, and a mac address to filter traffic.
     pub tx: Box<dyn datalink::DataLinkSender>,
     pub rx: Box<dyn datalink::DataLinkReceiver>,
     pub mac_addr: Option<pnet::util::MacAddr>,
 }
 
+/// Main entry point of the program. Starts all thread and functions necessary for running Ditto.
 pub fn run(settings: Value) -> Result<(), Box<dyn Error>> {
-    /// Main entry point of the program. Starts all thread and functions necessary for running Ditto.
-    
     // Convert the rate to a number of packet per seconds for scheduling
     let rate = settings["general"]["rate"].as_float().expect("Rate setting not found");
     let pps = rate / pattern::get_average_pattern_length() * FACTOR_MEGABITS / BITS_PER_BYTE;
@@ -156,9 +155,8 @@ pub fn run(settings: Value) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+/// Retrieve the network interface and its mac address.
 pub fn get_channel(interface_name: &str) -> Result<ChannelCustom, &'static str>{
-    /// Retrieve the network interface and its mac address.
-
     // Get the interface
     let interfaces = datalink::interfaces();
     let interface = match interfaces
@@ -186,9 +184,9 @@ pub fn get_channel(interface_name: &str) -> Result<ChannelCustom, &'static str>{
     Ok(ch)
 }
 
+// Send obfuscated or chaff packets to the network following the pattern. 
+// Gets packets from the round robin scheduler.
 fn transmit(obf_output_interface: &str, rrs: Arc<round_robin::RoundRobinScheduler>, pps: f64, save_data: bool) {
-    /// Send obfuscated or chaff packets to the network following the pattern. 
-    /// Gets packets from the round robin scheduler.
     println!("Transmitting data...");
 
     let mut ch_tx = match get_channel(obf_output_interface) {
@@ -249,9 +247,8 @@ fn transmit(obf_output_interface: &str, rrs: Arc<round_robin::RoundRobinSchedule
     }
 }
 
+// Listens for packets to be obfuscated. Obfuscates them and assigns them to the right priority queue.
 fn obfuscate_data(input_interface: &str, src_device: &str, rrs: Arc<round_robin::RoundRobinScheduler>, pps: f64, pad_log_interval: f64, save_data: bool) {
-    /// Listens for packets to be obfuscated. Obfuscates them and assigns them to the right priority queue.
-
     // Channel to listen for packets to obfuscate on
     let mut ch_rx = match get_channel(input_interface) {
         Ok(rx) => rx,
@@ -321,10 +318,9 @@ fn obfuscate_data(input_interface: &str, src_device: &str, rrs: Arc<round_robin:
     }
 }
 
+// Listens for Ditto traffic and tries to deobfuscate traffic. Chaff packets are discarded here.
+// Deobfuscated packets are then sent on to their destination without further protection.
 fn deobfuscate_data(obf_input_interface: &str, output_interface: &str, ip_src: [u8;4], is_local: bool, is_hw_obfuscation: bool, is_backbone: bool) {
-    /// Listens for Ditto traffic and tries to deobfuscate traffic. Chaff packets are discarded here.
-    /// Deobfuscated packets are then sent on to their destination without further protection.
-
     // Channel for listening to Ditto packets
     let mut ch_rx = match get_channel(obf_input_interface) {
         Ok(rx) => rx,
@@ -364,8 +360,8 @@ fn deobfuscate_data(obf_input_interface: &str, output_interface: &str, ip_src: [
     }
 }
 
+// Get an ip adress from a string in the format xxx.xxx.xxx.xxx and returns it as 4 bytes.
 fn parse_ip(ip_str: String) -> [u8;4] {
-    /// Get an ip adress from a string in the format xxx.xxx.xxx.xxx and returns it as 4 bytes.
     let ip_addr = match ip_str.parse::<net::Ipv4Addr>() {
         Ok(addr) => addr,
         Err(e) => {
@@ -375,8 +371,8 @@ fn parse_ip(ip_str: String) -> [u8;4] {
     ip_addr.octets()
 }
 
+// Write the parameters to their file. They have a particular format and need to be handled differently than other data written to a file.
 fn write_params_to_file<T: std::fmt::Display>(overwrite: bool, interval: T) {
-    /// Write the parameters to their file. They have a particular format and need to be handled differently than other data written to a file.
     let mut params_file = OpenOptions::new()
             .write(true)
             .truncate(overwrite) // Overwrite
@@ -389,11 +385,10 @@ fn write_params_to_file<T: std::fmt::Display>(overwrite: bool, interval: T) {
     writeln!(params_file, "pattern, {:?}", pattern::PATTERN).expect("Failed to write to file");
 }
 
+// Not used at the moment. Send the packets to the next available queue as to minimize reorderings. 
+// As of now Ditto sends packets to the queue with the closest fit in size which reduces padding but increases reorderings. 
+// This might be better for interactive applications that are very sensitive to out of order packets. 
 fn obfuscate_data_in_order(input_interface: &str, src_device: &str, rrs: Arc<round_robin::RoundRobinScheduler>, pps: f64, pad_log_interval: f64, save_data: bool) {
-    /// Not used at the moment. Send the packets to the next available queue as to minimize reorderings. 
-    /// As of now Ditto sends packets to the queue with the closest fit in size which reduces padding but increases reorderings. 
-    /// This might be better for interactive applications that are very sensitive to out of order packets. 
-
     // Channel to listen for packets to obfuscate on
     let mut ch_rx = match get_channel(input_interface) {
         Ok(rx) => rx,
@@ -451,18 +446,18 @@ fn obfuscate_data_in_order(input_interface: &str, src_device: &str, rrs: Arc<rou
     }
 }
 
+// Checks if the source ethernet address of the data matches the mac address of the interface or of the source device.
 fn check_src_eth(data: &[u8], mac_addr: pnet::util::MacAddr, src_device_mac: pnet::util::MacAddr) -> bool {
-    /// Checks if the source ethernet address of the data matches the mac address of the interface or of the source device.
     let packet = pnet::packet::ethernet::EthernetPacket::new(data).unwrap();
     let data_mac = packet.get_source();
 
     data_mac == mac_addr || data_mac == src_device_mac
 }
 
+// Set ip dst and mac for deobfuscated packets that should be forwarded.
+// This function currently assumes that the destination is zurich and the destination ip address is already in the 10.7.0.0/24 subnet.
+// In practice this should be done by a router and not here.
 fn process_backbone_packet(packet: &[u8], mac_addr: [u8; 6]) -> Vec<u8> {
-    /// Set ip dst and mac for deobfuscated packets that should be forwarded.
-    /// This function currently assumes that the destination is zurich and the destination ip address is already in the 10.7.0.0/24 subnet.
-    /// In practice this should be done by a router and not here.
     let mut pkt = vec![0u8; packet.len()]; 
     pkt.clone_from_slice(packet);
 

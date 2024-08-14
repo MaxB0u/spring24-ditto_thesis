@@ -14,15 +14,15 @@ pub const IP_ADDR_LEN: usize = 4;
 // Could be computed dynamically, but that is slower
 pub const IP_HDR: [u8; IP_HEADER_LEN] = [69, 0, 0, 0, 0, 0, 0, 0, 64, 94, 0, 0, 10, 7, 0, 2, 10, 7, 0, 3];
 
+/// Custom channel that holds the sending or receiving channel associated with a network interface.
 pub struct ChannelCustom {
-    /// Custom channel that holds the sending or receiving channel associated with a network interface.
     pub tx: Box<dyn datalink::DataLinkSender>,
     pub rx: Box<dyn datalink::DataLinkReceiver>,
 }
 
+/// Main entry point of the program that starts the threads to wrap or unwrap packets in IP headers. 
+/// Listen on obf interface, send on wg interface, and deobf if the packet is at destination dest.
 pub fn run(ip_src: [u8;4]) -> Result<(), Box<dyn Error>> {
-    /// Main entry point of the program that starts the threads to wrap or unwrap packets in IP headers. 
-    /// Listen on obf interface, send on wg interface, and deobf if the packet is at destination dest.
 
     // Core isolation is set here
     let is_wrap_isolated = true;
@@ -72,9 +72,8 @@ pub fn run(ip_src: [u8;4]) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+// Custom channel that returns the sending or receiving channel associated with a network interface.
 fn get_channel(interface_name: &str) -> Result<ChannelCustom, &'static str>{
-    /// Custom channel that returns the sending or receiving channel associated with a network interface.
-
     // Retrieve the network interface
     let interfaces = datalink::interfaces();
     let interface = match interfaces
@@ -99,9 +98,8 @@ fn get_channel(interface_name: &str) -> Result<ChannelCustom, &'static str>{
     Ok(ch)
 }
 
+// Wrap packets on the obf interface in a IP header and forwards them to the wireguard (wg) interface.
 fn wrap_and_forward() {
-    /// Wrap packets on the obf interface in a IP header and forwards them to the wireguard (wg) interface.
-
     // Get the channel to receive obfuscated packets
     let mut ch_rx = match get_channel(OBF_INTERFACE) {
         Ok(rx) => rx,
@@ -129,9 +127,8 @@ fn wrap_and_forward() {
     }
 }
 
+// Unwrap packets on the wg interface (remove IP header) and forwards them to the deobf interface.
 fn unwrap_and_forward(ip_src: [u8;4]) {
-    /// Unwrap packets on the wg interface (remove IP header) and forwards them to the deobf interface.
-
     // Get the channel to send unwrapped packets to
     let mut ch_rx = match get_channel(DEOBF_INTERFACE) {
         Ok(rx) => rx,
@@ -161,9 +158,8 @@ fn unwrap_and_forward(ip_src: [u8;4]) {
     }
 }
 
+// Utility function to wrap a packet in a constant ipv4 header. 
 fn wrap_in_ipv4(data: &[u8]) -> Vec<u8> {
-    /// Utility function to wrap a packet in a constant ipv4 header. 
-
     let total_len = data.len() + IP_HEADER_LEN;    
     let mut buffer = Vec::with_capacity(total_len);
 

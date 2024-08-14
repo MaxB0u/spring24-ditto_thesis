@@ -15,8 +15,8 @@ const ETHERTYPE_1B_PADS_TWO_TIMES_IN_A_ROW: u16 = 2313;
 const ETHERTYPE_LAST_PAD: u16 = 2304;
 
 
+/// Recursively removes Ethernet headers by looking at their types until a valid one is encountered or that the next header is not an Ethernet header.
 pub fn deobfuscate_tofino(eth_buff: &[u8]) -> &[u8] {
-    /// Recursively removes Ethernet headers by looking at their types until a valid one is encountered or that the next header is not an Ethernet header.
     let eth_pkt = ethernet::EthernetPacket::new(eth_buff).unwrap();
 
     match eth_pkt.get_ethertype().0 {
