@@ -1,4 +1,4 @@
-# Software Ditto
+# Sender Receiver
 
 Rust implementation of a program to send and receive packets at the link layer. It is used to test Ditto and network performance by logging the pakcets sent with their timestamp, flow number, and sequence number. It works by directly sending on network interfaces. The sender and the receiver's clocks must be synchronized with programs such as ntp to get accurate results.
 
@@ -17,7 +17,7 @@ The most important contents of this repository are:
 * `src/lib.rs`: Contains the main logic of the program. Starts threads for sending to and receiving from the network.
 * `config/*.toml`: Toml configuration files, whose structure will be described below.
 
-## Running the software version of Ditto
+## Running the sender/receiver program
 
 ```sudo cargo run config/<name of the config file to use>```
 
