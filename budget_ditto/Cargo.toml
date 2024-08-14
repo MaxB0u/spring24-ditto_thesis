@@ -1,0 +1,19 @@
+[package]
+name = "budget_ditto"
+version = "0.1.0"
+edition = "2024"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+pnet = "0.34"
+criterion = "0.5.1"
+rand = "0.8.4"
+libc = "0.2.107"
+crossbeam = "0.8"
+toml = "0.8.12"
+
+[[bench]]
+# These performance tests are not used per say at the moment, but can be useful to find the bottleneck of the program.
+name = "performance_tests"
+harness = false
