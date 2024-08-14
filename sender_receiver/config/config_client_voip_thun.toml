@@ -1,0 +1,29 @@
+# IP addresses used by VPN
+[ip]
+src='10.7.0.4'
+dst='10.7.0.2'
+
+# If CPU isolation is used
+# Core number don't matter if no isolation
+[isolation]
+priority=99
+isolate_sender=false 
+core_sender=0
+isolate_receiver=false
+core_receiver=1
+
+[interface]
+input='veth_d'
+output='veth_d'
+
+#Other parameters
+[general]
+rate=4.0
+time=15.0 #In sec
+save=true
+send=false
+receive=true
+log=false
+dataset='video'
+min_pkt_length=0
+max_pkt_length=0
