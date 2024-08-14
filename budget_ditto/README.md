@@ -2,9 +2,7 @@
 
 Rust implementation of Ditto from Roland Meier. It does not need any special hardware to run it. However, it can only be used for applications that require lower throughput.
 
-This program can currently run up to around 1 Gbps. The excat speed depends on the CPU of the system and the underlying hardware. Lower speeds are recommended for optimal performance. The settings with which it should run are set in the configuration files in `config/` and passed to the program as command line arguments. This program should be run over a Wireguard or other VPN to benefit from encryption and so that packets can not be trivially deobfuscated by an eavesdropper. A wireguard VPN was used for all tests.
-
-Another solution would be to use a Wireguard tunnel at the link layer.
+This program can currently run up to around 1 Gbps. The exact speed depends on the CPU of the system and the underlying hardware. Lower speeds are recommended for optimal performance. The settings with which it should run are set in the configuration files in `config/` and passed to the program as command line arguments. This program should be run over a Wireguard or other VPN to benefit from encryption and so that packets can not be trivially deobfuscated by an eavesdropper. A wireguard VPN was used for all tests.
 
 ## Repository overview
 
@@ -30,7 +28,7 @@ The program needs super user privilege to be able to send and receive packets. I
 * `src_device`: Name of a device from which Ethernet frames will be obfuscated in addition to the `no_obf` interface. Useful when you want to obfuscate frames that come from a router on your LAN and not directly from the `no_obf` interface.
 * `rate`: The rate at which obfuscated Ditto traffic will be sent to the network (`obf` interface) in Mbps. Note that if no real traffic is being communicated, chaff packets will be sent instead.
 * `pad_log_interval`: Interval of packets after which the average padding will be logged for analysis. Set a very large value to not log these values often.
-* `save`: Whether or not logged values and configuration parameters such as the pattern should be saved to a file or not.
+* `save`: Whether or not logged values and configuration parameters such as the pattern should be saved to a file.
 * `local`: Whether or not this instance of Ditto is running locally with another Ditto instance or if the Ditto peer is remote.
 * `log`: Whether or not to show more debugging information when running the program.
 * `hw_obfuscation`: Whether or not traffic is being received from a Tofino switch. This program can deobfuscate packets from a Tofino switch, but it can not at this moment obfuscate packets in a way that the Tofino switch will be able to deobfuscate them. This is because the p4 program running on the Tofino uses a different obfuscation scheme than this software version and adds fake Ethernet headers instead of extending the trailing bytes of the packet for padding.
