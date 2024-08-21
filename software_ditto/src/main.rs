@@ -17,7 +17,7 @@ fn main() {
     let toml_str = fs::read_to_string(args.pop().unwrap_or_default()).expect("Failed to read file");
     let toml_value: Value = toml::from_str(&toml_str).expect("Failed to parse TOML");
 
-    if let Err(e) = budget_ditto::run(toml_value) {
+    if let Err(e) = software_ditto::run(toml_value) {
         eprintln!("Application error: {e}");
         std::process::exit(1);
     }

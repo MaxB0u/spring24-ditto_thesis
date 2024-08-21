@@ -1,0 +1,73 @@
+File,Name,IsUsed,Description
+results/results_zurich_thun_caida.csv,Ditto Zurich Thun (Caida),False,Ditto between Zurich and Thun (caida)
+results/results_zurich_lausanne_caida.csv,Ditto Zurich Lausanne (Caida),False,Ditto between Zurich and Lausanne (caida)
+results/results_thun_lausanne_caida.csv,Ditto Thun Lausanne (Caida),False,Ditto between Thun and Lausanne (caida)
+0,0,False,Fake data to make the file more readable
+results/results_normal_traffic_zurich_thun_caida.csv,Normal traffic Zurich Thun (Caida),False,Normal traffic between Zurich and Thun (caida)
+results/results_normal_traffic_zurich_lausanne_caida.csv,Normal traffic Zurich Lausanne (Caida),False,Normal traffic between Zurich and Lausanne (caida)
+results/results_normal_traffic_thun_lausanne_caida.csv,Normal traffic Thun Lausanne (Caida),False,Normal traffic between Thun and Lausanne (caida)
+0,0,False,Fake data to make the file more readable
+results/results_pattern_zurich_thun_caida.csv,Pattern Zurich Thun (Caida),False,Ditto at 70% with varying pattern lengths between Zurich and Thun (caida)
+results/results_pattern_zurich_lausanne_caida.csv,Pattern Zurich Lausanne (Caida),False,itto at 70% with varying pattern lengths between Zurich and Lausanne (caida)
+results/results_pattern_thun_lausanne_caida.csv,Pattern Thun Lausanne (Caida),False,itto at 70% with varying pattern lengths between Thun and Lausanne (caida)
+0,0,False,Fake data to make the file more readable
+results/results_mult_zurich_thun_caida.csv,Mult flows Zurich Thun (Caida),False,Ditto with multiple flows between Zurich and Thun (caida)
+results/results_mult_zurich_lausanne_caida.csv,Mult flows Zurich Lausanne (Caida),False,Ditto with multiple flows between Zurich and Lausanne (caida)
+results/results_mult_thun_lausanne_caida.csv,Mult flows Thun Lausanne (Caida),False,Ditto with multiple flows between Thun and Lausanne (caida)
+0,0,False,Fake data to make the file more readable
+results/results_mult_special_zurich_thun_caida.csv,One flow per state Zurich Thun (Caida),False,Ditto with multiple flows and one flow per pattern state between Zurich and Thun (caida)
+results/results_mult_special_zurich_lausanne_caida.csv,One flow per state Zurich Lausanne (Caida),False,Ditto with multiple flows and one flow per pattern state between Zurich and Lausanne (caida)
+results/results_mult_special_thun_lausanne_caida.csv,One flow per state Thun Lausanne (Caida),False,Ditto with multiple flows and one flow per pattern state between Thun and Lausanne (caida)
+0,0,False,Fake data to make the file more readable
+results/results_zurich_thun_caida_unadjustedpattern.csv,Ditto Zurich Thun uniform pattern,False,Ditto between Zurich and Thun without adjusting the pattern (caida)
+old/results_pattern.csv,Pattern Zurich Thun,False, Ditto at 70% with varying pattern lengths between Zurich and Thun
+0,0,False,Fake data to make the file more readable
+results/results_zurich_thun_.csv,Ditto Zurich Thun,False,Ditto between Zurich and Thun
+results/results_zurich_lausanne_.csv,Ditto Zurich Lausanne,False,Ditto between Zurich and Lausanne
+results/results_thun_lausanne_.csv,Ditto Thun Lausanne,False,Ditto between Thun and Lausanne
+0,0,False,Fake data to make the file more readable
+results/results_normal_traffic_zurich_thun_.csv,Normal traffic Zurich Thun,False,Normal traffic between Zurich and Thun
+results/results_normal_traffic_zurich_lausanne_.csv,Normal traffic Zurich Lausanne,False,Normal traffic between Zurich and Lausanne
+results/results_normal_traffic_thun_lausanne_.csv,Normal traffic Thun Lausanne,False,Normal traffic between Thun and Lausanne
+0,0,False,Fake data to make the file more readable
+results/results_pattern_zurich_thun_.csv,Pattern Zurich Thun (caida),False,Ditto at 70% with varying pattern lengths between Zurich and Thun
+results/results_pattern_zurich_lausanne_.csv,Pattern Zurich Lausanne (caida),False,itto at 70% with varying pattern lengths between Zurich and Lausanne
+results/results_pattern_thun_lausanne_.csv,Pattern Thun Lausanne (caida),False,itto at 70% with varying pattern lengths between Thun and Lausanne
+0,0,False,Fake data to make the file more readable
+results/results_mult_zurich_thun_.csv,Mult flows Zurich Thun,False,Ditto with multiple flows between Zurich and Thun
+results/results_mult_zurich_lausanne_.csv,Mult flows Zurich Lausanne,False,Ditto with multiple flows between Zurich and Lausanne
+results/results_mult_thun_lausanne_.csv,Mult flows Thun Lausanne,False,Ditto with multiple flows between Thun and Lausanne
+0,0,False,Fake data to make the file more readable
+results/results_mult_special_zurich_thun.csv,One flow per state Zurich Thun,False,Ditto with multiple flows and one flow per pattern state between Zurich and Thun
+results/results_mult_special_zurich_lausanne.csv,One flow per state Zurich Lausanne,False,Ditto with multiple flows and one flow per pattern state between Zurich and Lausanne
+results/results_mult_special_thun_lausanne.csv,One flow per state Thun Lausanne,False,Ditto with multiple flows and one flow per pattern state between Thun and Lausanne
+0,0,False,Fake data to make the file more readable
+results/results_video_zurich_thun_caida.csv,Video data Zurich Thun - Optimal pattern,False,Video dataset over ditto with an optimal pattern between Zurich and Thun
+results/results_video1_zurich_thun_caida.csv,Video data Zurich Thun - Video and DB,False,Video dataset over ditto with a pattern for the anonymity set web/database management between Zurich and Thun
+results/results_video2_zurich_thun_caida.csv,Video data Zurich Thun - Video and Web,False,Video dataset over ditto with a pattern for the anonymity set web/web between Zurich and Thun
+0,0,False,Fake data to make the file more readable
+results/results_voip_zurich_thun_.csv,Voip data Zurich Thun - Ditto running at 100Mbps,True,Voip data at 4Mbps with background caida traffic
+results/results_voip_zurich_thun_500.csv,Voip data Zurich Thun - Ditto running at 500Mbps,False,Voip data at 4Mbps with background caida traffic
+0,0,False,Fake data to make the file more readable
+results/results_backbone_voip_100.csv,Backbone data voip 100Mbps,False,End to end voip data over Ditto at 100Mbps in the backbone 
+results/results_backbone_web_100.csv,Backbone data web 100Mbps,False,End to end voip data over Ditto at 100Mbps in the backbone
+results/results_backbone_voip_200.csv,Backbone data voip 200Mbps,False,End to end voip data over Ditto at 200Mbps in the backbone 
+results/results_backbone_web_200.csv,Backbone data web 200Mbps,False,End to end voip data over Ditto at 200Mbps in the backbone
+results/results_backbone_combined_100.csv,Backbone data combined 100Mbps,False,End to end combined data over Ditto at 200Mbps in the backbone 
+results/results_backbone_combined_200.csv,Backbone data combined 200Mbps,False,End to end combined data over Ditto at 200Mbps in the backbone
+0,0,False,Fake data to make the file more readable
+results/results_backbone_voip_100_p6.csv,Backbone data voip 100Mbps. Pattern of length 6,False,End to end voip data over Ditto at 100Mbps in the backbone with a pattern of length 6
+results/results_backbone_web_100_p6.csv,Backbone data web 100Mbps. Pattern of length 6,False,End to end voip data over Ditto at 100Mbps in the backbone with a pattern of length 6
+results/results_backbone_voip_200_p6.csv,Backbone data voip 200Mbps. Pattern of length 6,False,End to end voip data over Ditto at 200Mbps in the backbone with a pattern of length 6
+results/results_backbone_web_200_p6.csv,Backbone data web 200Mbps. Pattern of length 6,False,End to end voip data over Ditto at 200Mbps in the backbone with a pattern of length 6
+results/results_backbone_combined_100_p6.csv,Backbone data combined 100Mbps. Pattern of length 6,False,End to end combined data over Ditto at 200Mbps in the backbone with a pattern of length 6
+results/results_backbone_combined_200_p6.csv,Backbone data combined 200Mbps. Pattern of length 6,False,End to end combined data over Ditto at 200Mbps in the backbone with a pattern of length 6
+0,0,False,Fake data to make the file more readable
+results/results_backbone_voip_100_p3.csv,Backbone data voip 100Mbps. Pattern of length 3,False,End to end voip data over Ditto at 100Mbps in the backbone with a pattern of length 3
+results/results_backbone_web_100_p3.csv,Backbone data web 100Mbps. Pattern of length 3,False,End to end voip data over Ditto at 100Mbps in the backbone with a pattern of length 3
+results/results_backbone_voip_200_p3.csv,Backbone data voip 200Mbps. Pattern of length 3,False,End to end voip data over Ditto at 200Mbps in the backbone with a pattern of length 3
+results/results_backbone_web_200_p3.csv,Backbone data web 200Mbps. Pattern of length 3,False,End to end voip data over Ditto at 200Mbps in the backbone with a pattern of length 3
+results/results_backbone_combined_100_p3.csv,Backbone data combined 100Mbps. Pattern of length 3,False,End to end combined data over Ditto at 200Mbps in the backbone with a pattern of length 3
+results/results_backbone_combined_200_p3.csv,Backbone data combined 200Mbps. Pattern of length 3,False,End to end combined data over Ditto at 200Mbps in the backbone with a pattern of length 3
+0,0,False,Fake data to make the file more readable
+results/results_hardware_tofino-lausanne_zurich_.csv,Hardware Ditto Lausanne Zurich,False,End to end combined data over Ditto at 200Mbps in the backbone with a pattern of length 6
