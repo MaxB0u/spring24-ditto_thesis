@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 BITS_PER_BYTE = 8
 
 
-def plot_data(df, plot_normal_traffic=False):
+def plot_data(df):
     # Plot time
     plt.figure()
     grouped = df.groupby("Size")["Time"].agg(["mean", "std"])
@@ -15,12 +15,6 @@ def plot_data(df, plot_normal_traffic=False):
     plt.title("Average Time vs Request Size")
     plt.xlabel("Size (MB)")
     plt.ylabel("Time (s)")
-    if plot_normal_traffic:
-        grouped_normal = df_normal.groupby("Endpoint")["Time"].agg(["mean", "std"])
-        plt.plot(grouped.index, grouped_normal["mean"], label="Normal traffic")
-        plt.errorbar(
-            grouped.index, grouped_normal["mean"], yerr=grouped_normal["std"], fmt="o"
-        )
     plt.legend()
     plt.ylim(bottom=0)
 
@@ -32,12 +26,6 @@ def plot_data(df, plot_normal_traffic=False):
     plt.title("Average Speed vs Request Size")
     plt.xlabel("Size (MB)")
     plt.ylabel("Speed (Mbps)")
-    if plot_normal_traffic:
-        grouped_normal = df_normal.groupby("Endpoint")["Speed"].agg(["mean", "std"])
-        plt.plot(grouped.index, grouped_normal["mean"], label="Normal traffic")
-        plt.errorbar(
-            grouped.index, grouped_normal["mean"], yerr=grouped_normal["std"], fmt="o"
-        )
     plt.legend()
     plt.ylim(bottom=0)
 
@@ -56,6 +44,9 @@ def parse_files(file_str):
 
 
 def parse_results(res_str):
+    """
+    Parse the web loading results and plot them. Used for programs like curl and wget. These were not used in the final results, but were used in some tests.
+    """
     # Split df['Result'] in
     # num files, length, time, speed
     pattern = r" ([\d.]+)([A-Z]+) in ([\d.]+)s \(([\d.]+) ([A-Z]+)\/s\)"
@@ -84,6 +75,9 @@ def parse_results(res_str):
 
 
 def get_data(filename):
+    """
+    Get the data from a csv file in a dataframe. Parse the data and return it.
+    """
     df = pd.read_csv(filename)
     df[["Numfiles"]] = df["Numfiles"].apply(parse_files)
     df[["Size", "Time", "Speed"]] = df["Result"].apply(parse_results)
@@ -92,15 +86,16 @@ def get_data(filename):
 
 
 if __name__ == "__main__":
-    is_plot_data = True
+    """
+    Given a CSV file, plot the time of web results over curl or wget.
+    """
+    
+    # Default filename
     filename = "~/cyd/remote/zurich/analysis/download_results.csv"
 
+    # User specified filename
     if len(sys.argv) == 2:
         filename = sys.argv[1]
 
     df = get_data(filename)
-    print(df.head())
-    print(len(df))
-
-    if is_plot_data:
-        plot_data(df)
+    plot_data(df)

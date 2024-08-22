@@ -4,10 +4,16 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Conversion factor between bits and bytes
 BITS_PER_BYTE = 8
 
 
 def plot_data(df, df_background):
+    """
+    Plot the delays. One plot for time vs pattern length, and one for time vs background traffic rate
+    """
+
+    # Get the data needed from the dataframe of time vs pattern
     data = (
         df.groupby(["Page", "PatternLength"])
         .agg({"LoadTime": ["mean", "std"]})
@@ -15,7 +21,7 @@ def plot_data(df, df_background):
     )
     data.columns = ["Page", "PatternLength", "LoadTime_mean", "LoadTime_std"]
 
-    # Plot time
+    # Plot time vs pattern
     plt.figure()
     for page in data["Page"].unique():
         page_data = data[data["Page"] == page]
@@ -34,6 +40,7 @@ def plot_data(df, df_background):
     plt.yticks(np.arange(0, 21, step=2))
     plt.ylim(bottom=0, top=20)
 
+    # Get the data needed from the dataframe of time vs background traffic rate
     data = (
         df_background.groupby(["Page", "Rate"])
         .agg({"LoadTime": ["mean", "std"]})
@@ -41,7 +48,7 @@ def plot_data(df, df_background):
     )
     data.columns = ["Page", "Rate", "LoadTime_mean", "LoadTime_std"]
 
-    # Plot time
+    # Plot time vs background traffic rate
     plt.figure()
     for page in data["Page"].unique():
         page_data = data[data["Page"] == page]
@@ -63,19 +70,20 @@ def plot_data(df, df_background):
 
 
 if __name__ == "__main__":
-    is_plot_data = True
-    filename = "~/cyd/remote/thun/web/web_results2.csv"
+    """
+    Given two CSV files of web loading results, plot the loading time vs pattern length and the loading time vs background traffic rate. If no files are given, default filenames are used.
+    """
+    
+    # Default file names
     filename = "~/cyd/tests/web_results.csv"
     filename_background = "~/cyd/remote/thun/web/web_results_background_traffic.csv"
 
+    # User specified file names
     if len(sys.argv) == 3:
         filename = sys.argv[1]
         filename_background = sys.argv[2]
 
     df = pd.read_csv(filename)
-    print(df.head())
-    print(len(df))
     df_background = pd.read_csv(filename_background)
 
-    if is_plot_data:
-        plot_data(df, df_background)
+    plot_data(df, df_background)
