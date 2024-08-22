@@ -43,4 +43,7 @@ The program needs super user privilege to be able to send and receive packets. I
 
 The flow number of the traffic should be set as an environment variable named `FLOW`. For instance, setting it to `1` will indicate that all packets sent with this instance of the program belong to flow 1, which will be encoded in the last byte of the packets sent.
 
+## Packet traces
+
+The packet traces are not provided as some of them are based on private CAIDA or Locked Shields data for which you need an NDA. Right now uniformly distributed data can be used. For other data types, please generate your own traces and modify the `lib.rs` file where the data is read from a file to use your filenames.
 
