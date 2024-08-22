@@ -253,13 +253,13 @@ fn send(input: &str, config: SenderConfig) {
     let delays = vec![0; 1e6 as usize];
     let lengths;
     if config.dataset == "caida" {
-        let filename = "../caida/caida_lengths.csv";
+        let filename = "../traces/caida_lengths.csv";
         lengths = get_lengths_from_file(filename, config.num_pkts);
     } else if config.dataset == "video" {
-        let filename = "../caida/video_lengths.csv";
+        let filename = "../traces/video_lengths.csv";
         lengths = get_lengths_from_file(filename, config.num_pkts);
     } else if config.dataset == "web" {
-        let filename = "../caida/web_lengths.csv";
+        let filename = "../traces/web_lengths.csv";
         lengths = get_lengths_from_file(filename, config.num_pkts);
     } else {
         lengths = get_random_pkt_lengths(config.num_pkts, config.min_pkt_length, config.max_pkt_length);
